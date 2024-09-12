@@ -16,7 +16,14 @@ class PalindromeController extends AbstractController
 
         if ($request->isMethod('POST')) {
             $input = $request->request->get('input');
-            $result = 'You entered: "' . $input . '"';
+
+            $cleanedInput = strtolower(preg_replace("/[^A-Za-z0-9]/", '', $input));
+
+            if ($cleanedInput === strrev($cleanedInput)) {
+                $result = '"' . $input . '" is a palindrome!';
+            } else {
+                $result = '"' . $input . '" is not a palindrome.';
+            }
         }
 
         return $this->render('palindrome/index.html.twig', [
